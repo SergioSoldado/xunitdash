@@ -1,0 +1,31 @@
+html {
+    background: var(--bg-primary);
+}
+
+body {
+    color: var(--text-primary);
+}
+
+.MuiIconButton-label {
+    color: var(--text-secondary);
+}
+
+.MuiInput-underline:before {
+    border-bottom: 1px solid var(--border-primary);
+}
+
+.MuiTextField-root, .MuiFormLabel-root {
+    color: var(--text-placeholder);
+    background-color: var(--bg-secondary);
+    border-color: var(--border-primary);
+}
+
+.MuiPaper-root {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.MuiToolbar-root {
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+}

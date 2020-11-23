@@ -1,0 +1,15 @@
+version: '3.4'
+services:
+  postgres:
+    build: ./database
+    container_name: xunitdash_database
+    hostname: xunitdash_database
+    command: postgres -c 'max-connections=1000'
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./database-volume:/var/lib/postgresql/data:z
+    environment:
+      - POSTGRES_DB=${DOTENV_POSTGRES_DB}
+      - POSTGRES_USER=${DOTENV_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${DOTENV_POSTGRES_PASSWORD}

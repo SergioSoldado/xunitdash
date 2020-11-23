@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+    <testsuite errors="0" failures="1" hostname="hubshuffle" name="pytest" skipped="7" tests="27" time="0.289"
+               timestamp="2020-03-02T21:41:38.264796">
+        <properties>
+            <property name="ARCH" value="PPC"/>
+            <property name="STORAGE_TYPE" value="CEPH"/>
+        </properties>
+        <testcase classname="" file="tests/sdk/storybook/test_pytest_skip_module.py"
+                  name="tests.sdk.storybook.test_pytest_skip_module" time="0.000">
+            <skipped message="collection skipped">(&apos;/second-partition/development/nuke-testharness/tests/sdk/storybook/test_pytest_skip_module.py&apos;,
+                4, &apos;Skipped: Skipping this module&apos;)
+            </skipped>
+        </testcase>
+        <testcase classname="" file="tests/sdk/storybook/test_pytest_skip_on_failed_import.py"
+                  name="tests.sdk.storybook.test_pytest_skip_on_failed_import" time="0.000">
+            <skipped message="collection skipped">(&apos;/second-partition/development/nuke-testharness/tests/sdk/storybook/test_pytest_skip_on_failed_import.py&apos;,
+                3, &quot;Skipped: could not import &apos;crazy_module&apos;: No module named &apos;crazy_module&apos;&quot;)
+            </skipped>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_fixtures"
+                  file="tests/sdk/storybook/test_builtin_fixtures.py" line="9" name="test_capfd" time="0.007">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_fixtures"
+                  file="tests/sdk/storybook/test_builtin_fixtures.py" line="21" name="test_capfdbinary" time="0.006">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_fixtures"
+                  file="tests/sdk/storybook/test_builtin_fixtures.py" line="33" name="test_caplog" time="0.002">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_fixtures"
+                  file="tests/sdk/storybook/test_builtin_fixtures.py" line="68" name="test_monkeypatch" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_fixtures"
+                  file="tests/sdk/storybook/test_builtin_fixtures.py" line="93" name="test_record_property"
+                  time="0.001">
+            <properties>
+                <property name="example_key" value="1"/>
+            </properties>
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_fixtures"
+                  file="tests/sdk/storybook/test_builtin_fixtures.py" line="103" name="test_record_testsuite_property"
+                  time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_fixtures"
+                  file="tests/sdk/storybook/test_builtin_fixtures.py" line="112" name="test_tmp_path" time="0.003">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_fixtures"
+                  file="tests/sdk/storybook/test_builtin_fixtures.py" line="130" name="test_tmp_factory" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                TMPdir is /tmp/pytest-of-serj/pytest-17/test_tmp_factory0/hello.txt
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_builtin_request"
+                  file="tests/sdk/storybook/test_builtin_request.py" line="6" name="test_answer" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                first
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_custom_fixture_scopes"
+                  file="tests/sdk/storybook/test_custom_fixture_scopes.py" line="17" name="test_function_scope_fixture"
+                  time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_custom_fixture_scopes"
+                  file="tests/sdk/storybook/test_custom_fixture_scopes.py" line="21" name="test_other" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_custom_fixtures"
+                  file="tests/sdk/storybook/test_custom_fixtures.py" line="23" name="test_my_config_is_verbose"
+                  time="0.002">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_fixture_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_marks" file="tests/sdk/storybook/test_marks.py" line="5"
+                  name="test_func_fast" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_marks" file="tests/sdk/storybook/test_marks.py" line="9"
+                  name="test_func_slow" time="0.000">
+            <skipped message="need --runslow option to run" type="pytest.skip">tests/sdk/storybook/test_marks.py:10:
+                need --runslow option to run
+            </skipped>
+            <system-out>Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_marks" file="tests/sdk/storybook/test_marks.py" line="20"
+                  name="test_check_config" time="0.001">
+            <failure message="Failed: not configured: 42">def test_check_config():
+                &gt; checkconfig(42)
+                E Failed: not configured: 42
+
+                tests/sdk/storybook/test_marks.py:22: Failed
+            </failure>
+            <system-err>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-err>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_exit" file="tests/sdk/storybook/test_pytest_exit.py"
+                  line="3" name="test_exit_with_return_code" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_numbers" file="tests/sdk/storybook/test_pytest_numbers.py"
+                  line="5" name="test_approx" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_raises_etc"
+                  file="tests/sdk/storybook/test_pytest_raises_etc.py" line="5" name="test_with_raises" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_raises_etc"
+                  file="tests/sdk/storybook/test_pytest_raises_etc.py" line="17" name="test_with_warning" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_skip_examples"
+                  file="tests/sdk/storybook/test_pytest_skip_examples.py" line="7" name="test_skip" time="0.000">
+            <skipped message="This will never pass" type="pytest.skip">
+                tests/sdk/storybook/test_pytest_skip_examples.py:8: This will never pass
+            </skipped>
+            <system-out>Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_skip_examples"
+                  file="tests/sdk/storybook/test_pytest_skip_examples.py" line="12" name="test_skip_imperatively"
+                  time="0.001">
+            <skipped message="Unsupported Test" type="pytest.skip">
+                /second-partition/development/nuke-testharness/tests/sdk/storybook/test_pytest_skip_examples.py:15:
+                Unsupported Test
+            </skipped>
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+            </system-out>
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_skip_examples"
+                  file="tests/sdk/storybook/test_pytest_skip_examples.py" line="18" name="test_skip_decorator"
+                  time="0.000">
+            <skipped message="Skipping this test as an example" type="pytest.skip">
+                tests/sdk/storybook/test_pytest_skip_examples.py:19: Skipping this test as an example
+            </skipped>
+            <system-out>Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_skip_examples"
+                  file="tests/sdk/storybook/test_pytest_skip_examples.py" line="39" name="test_skipif_decorator"
+                  time="0.002">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_skip_examples"
+                  file="tests/sdk/storybook/test_pytest_skip_examples.py" line="48" name="test_expected_to_fail"
+                  time="0.001">
+            <skipped message="Example of expected to fail" type="pytest.xfail"></skipped>
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+            </system-out>
+        </testcase>
+        <testcase classname="tests.sdk.storybook.test_pytest_skip_examples"
+                  file="tests/sdk/storybook/test_pytest_skip_examples.py" line="58"
+                  name="test_expected_to_fail_but_passing" time="0.001">
+            <system-out>Hook pytest_runtest_setup
+                Hook pytest_runtest_call
+                Hook pytest_pyfunc_call
+                Hook pytest_runtest_teardown
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+                Hook pytest_fixture_post_finalizer
+            </system-out>
+        </testcase>
+    </testsuite>
+</testsuites>
