@@ -55,33 +55,6 @@ const Description = styled(Blockquote)`
   margin: 2rem 0;
 `
 
-// export async function getStaticPaths() {
-//   let paths: Array<object> = []
-//   const pageLimit = 250
-//   do {
-//     const { data } = await getMultipleTestSuitesStatic({
-//       pageOffset: paths.length,
-//       fields: '',
-//       pageLimit,
-//       testTestCasesStaticOptions: { fields: '' },
-//     })
-//     if (data.length <= 0) {
-//       break
-//     }
-//     for (const d of data) {
-//       for (const dd of d.testCases) {
-//         paths.push({
-//           params: { suiteId: d.id, caseId: dd.id },
-//         })
-//       }
-//     }
-//   } while (true)
-//   return {
-//     paths,
-//     fallback: true,
-//   }
-// }
-
 export async function getStaticPaths() {
   return {
     paths: [],
