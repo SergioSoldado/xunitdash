@@ -1,13 +1,9 @@
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import Page from '~/components/Page'
-import { H1, Blockquote } from '~/components/Typography'
+import { Blockquote, H1 } from '~/components/Typography'
 import { TestCase, TestCaseStatic, TestSuiteStatic } from '~/lib/junit/types'
-import {
-  getMultipleTestCasesOfCasesStatic,
-  // getMultipleTestSuitesStatic,
-  getTestSuitesStaticTestCaseStatic,
-} from '~/lib/junit/utils'
+import { getMultipleTestCasesOfCasesStatic, getTestSuitesStaticTestCaseStatic } from '~/lib/junit/utils'
 import { getTestSuiteStatic } from '~/lib/junit/testRuns'
 import styled from 'styled-components'
 import Link from 'next/link'
@@ -26,6 +22,8 @@ import { Dialog, DialogContent, DialogTitle } from '@material-ui/core'
 import CustomButton from '~/components/Button'
 import { Close } from '@material-ui/icons'
 import { PlotData } from 'plotly.js'
+import Grid from '~/components/Layouts/Grid'
+import GridItem from '~/components/GridItem'
 
 const ReactTable = dynamic(() => import('~/components/ReactTable/Table'), {
   ssr: false,
@@ -44,9 +42,9 @@ const ReactJson = React.memo(
 )
 
 const TableContainer = styled.div`
-  max-width: 200%;
+  max-width: 100%;
   position: relative;
-  overflow: scroll;
+  overflow: hidden;
 `
 
 const StyledPlot = styled(Plot)`
@@ -201,7 +199,9 @@ export default class TestSuiteCase extends React.Component<Props, State> {
     const { id, name, description, classname, group, file, line } = testCase
 
     const plotDataCasesErrorOrFail: Array<Partial<PlotData>> = []
+    const plotDataCasesErrorOrFailBoxPlot: Array<Partial<PlotData>> = []
     const plotDataTime: Array<Partial<PlotData>> = []
+    const plotDataTimeBoxPlot: Array<Partial<PlotData>> = []
     const x = runs.map((e) => e.test_suite.test_run_id)
     let y = runs.map((e) => {
       if (e.errors.length > 0 || e.failures.length > 0) {
@@ -213,8 +213,9 @@ export default class TestSuiteCase extends React.Component<Props, State> {
       return 1
     })
     plotDataCasesErrorOrFail.push({ x, y, mode: 'lines+markers', name })
-
+    plotDataCasesErrorOrFailBoxPlot.push({ y, type: 'box', name })
     plotDataTime.push({ x, y: runs.map((e) => e.time), mode: 'lines+markers', name })
+    plotDataTimeBoxPlot.push({ y: runs.map((e) => e.time), type: 'box', name })
 
     const tableData = {
       id,
@@ -230,48 +231,80 @@ export default class TestSuiteCase extends React.Component<Props, State> {
       <Page withHeader>
         <H1>{name}</H1>
         <TableContainer>
-          <PerfectScrollbar options={{ suppressScrollY: true }}>
+          <PerfectScrollbar style={{ width: '100%' }}>
             <Table tableHead={Object.keys(tableData)} tableData={[tableData]} />
           </PerfectScrollbar>
         </TableContainer>
+
         <Description>{description}</Description>
 
-        <StyledPlot
-          data={plotDataCasesErrorOrFail}
-          layout={{
-            ...getPlotLayout(true, false),
-            title: 'Test Case Status',
-            xaxis: {
-              title: 'Test Run',
-            },
-            yaxis: {
-              title: 'Error(-1) Skip(+0) pass(+1)',
-            },
-          }}
-          config={getPlotConfig()}
-        />
+        <Grid breakpoints={{ default: 2, 900: 1 }}>
+          <GridItem>
+            <StyledPlot
+              data={plotDataCasesErrorOrFail}
+              layout={{
+                ...getPlotLayout(true, false),
+                title: 'Test Case Status',
+                xaxis: {
+                  title: 'Test Run',
+                },
+                yaxis: {
+                  title: 'Error(-1) Skip(+0) pass(+1)',
+                },
+              }}
+              config={getPlotConfig()}
+            />
+          </GridItem>
+          <GridItem>
+            <StyledPlot
+              data={plotDataCasesErrorOrFailBoxPlot}
+              layout={{
+                ...getPlotLayout(true, false),
+                title: 'Test Case Status Box Plot',
+                yaxis: {
+                  title: 'Error(-1) Skip(+0) pass(+1)',
+                },
+              }}
+              config={getPlotConfig()}
+            />
+          </GridItem>
 
-        <StyledPlot
-          data={plotDataTime}
-          layout={{
-            ...getPlotLayout(true, false),
-            title: 'Test Case Time',
-            xaxis: {
-              title: 'Test Run Id',
-            },
-            yaxis: {
-              title: 'Time (s)',
-            },
-          }}
-          config={getPlotConfig()}
-        />
+          <GridItem>
+            <StyledPlot
+              data={plotDataTime}
+              layout={{
+                ...getPlotLayout(true, false),
+                title: 'Test Case Time',
+                xaxis: {
+                  title: 'Test Run Id',
+                },
+                yaxis: {
+                  title: 'Time (s)',
+                },
+              }}
+              config={getPlotConfig()}
+            />
+          </GridItem>
+          <GridItem>
+            <StyledPlot
+              data={plotDataTimeBoxPlot}
+              layout={{
+                ...getPlotLayout(true, false),
+                title: 'Test Case Time Box Plot',
+                yaxis: {
+                  title: 'Time (s)',
+                },
+              }}
+              config={getPlotConfig()}
+            />
+          </GridItem>
+        </Grid>
 
-        <PerfectScrollbar style={{ width: '100%' }}>
-          <TableContainer>
-            {/*// @ts-ignore*/}
+        <TableContainer>
+          <PerfectScrollbar>
             <ReactTable name="Test Runs" columns={columns} data={runs} onEdit={this.onTableUpdate} />
-          </TableContainer>
-        </PerfectScrollbar>
+          </PerfectScrollbar>
+        </TableContainer>
 
         <Dialog
           open={this.state.showModal}
