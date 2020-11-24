@@ -138,7 +138,20 @@ export default class TestRuns extends React.Component<Props, State> {
     const { totalRuns, maxRunsPerDay, calendarData, calendarStartDate, calendarEndDate, data } = this.props
     const { filteredData } = this.state
 
-    const keys: Array<string> = getKMostPopularKeys(data, 'meta', 20)
+    const weigher = (k: string, v: object | string): number => {
+      let weight = 1
+      if (k.includes('env')) {
+        weight = weight * 0.5
+      }
+      if (typeof v === 'object' || (typeof v === 'string' && v.length > 32)) {
+        weight = weight * 0.2
+      }
+      if (typeof v === 'string' && v.length === 0) {
+        weight = 0
+      }
+      return weight
+    }
+    const keys: Array<string> = getKMostPopularKeys(data, 'meta', 20, weigher)
 
     const columns: Array<Column> = [
       getColItemAutoWidth(data, (d: TestRunData) => d.id, 'Link', {
