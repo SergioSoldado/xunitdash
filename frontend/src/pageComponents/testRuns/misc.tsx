@@ -8,18 +8,31 @@ import { Config, Layout, PlotData } from 'plotly.js'
 import { Box, InputLabel, TextField } from '@material-ui/core'
 import { Clear } from '@material-ui/icons'
 
-export function getKMostPopularKeys(objs: Array<object>, path: string, k: number) {
+export function getKMostPopularKeys(
+  objs: Array<object>,
+  path: string,
+  k: number,
+  weigher: (k: string, v: any) => number = null
+) {
   const binned = {}
   for (let i = 0; i < objs.length; ++i) {
-    const obj = ld.get(objs[i], path, {})
-    for (const k  of Object.keys(obj)) {
-      if (typeof obj[k] !== "string" && typeof obj[k] !== 'number') {
+    let obj = objs[i]
+    if (path && path.length > 0) {
+      obj = ld.get(objs[i], path, {})
+    }
+
+    for (const k of Object.keys(obj)) {
+      if (typeof obj[k] !== 'string' && typeof obj[k] !== 'number') {
         continue
       }
+      let weight = 1
+      if (weigher) {
+        weight = weigher(k, obj[k])
+      }
       if (!ld.has(binned, k)) {
-        binned[k] = 1
+        binned[k] = weight
       } else {
-        binned[k] += 1
+        binned[k] += weight
       }
     }
   }
@@ -27,14 +40,21 @@ export function getKMostPopularKeys(objs: Array<object>, path: string, k: number
   for (const k of Object.keys(binned)) {
     binnedArr.push({
       k,
-      count: binned[k]
+      count: binned[k],
     })
   }
-  binnedArr.sort(function(a, b){return a.count - b.count})
-  return binnedArr.slice(0, Math.min(k, binnedArr.length)).map(e => e.k)
+  binnedArr.sort(function (a, b) {
+    return b.count - a.count
+  })
+
+  return binnedArr.slice(0, Math.min(k, binnedArr.length)).map((e) => e.k)
 }
 
-export function getPlotLayout(showlegend: boolean = true, noMargin: boolean = false, title: string = ''): Partial<Layout> {
+export function getPlotLayout(
+  showlegend: boolean = true,
+  noMargin: boolean = false,
+  title: string = ''
+): Partial<Layout> {
   let m = noMargin ? 0 : 40
   return {
     plot_bgcolor: '#00000000',
@@ -51,7 +71,7 @@ export function getPlotLayout(showlegend: boolean = true, noMargin: boolean = fa
       t: m,
       pad: 0,
     },
-    title
+    title,
   }
 }
 
@@ -74,7 +94,7 @@ export function getButtonTextArrayComponent(root, key, cb, tag: string = undefin
   const content = ld.get(root, key)
   return (
     <CustomButton style={{ height: '1rem', margin: 0 }} disabled={content.length === 0} onClick={() => cb(content)}>
-      {tag? tag : content.length}
+      {tag ? tag : content.length}
     </CustomButton>
   )
 }
