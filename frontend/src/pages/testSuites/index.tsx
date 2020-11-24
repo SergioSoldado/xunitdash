@@ -99,9 +99,6 @@ export async function getStaticProps() {
       } while (runs.length < total)
 
       runs.sort((a, b) => a.test_run_id - b.test_run_id)
-      // if ( isCyclic(items)) {
-      //   continue
-      // }
       items.push({
         ...tss,
         health: ((100 * (tests - errors - fails)) / tests).toFixed(0),
@@ -110,7 +107,6 @@ export async function getStaticProps() {
     }
   } while (true)
 
-  // console.log('items:', items)
   return { props: { items }, revalidate: 600 }
 }
 
