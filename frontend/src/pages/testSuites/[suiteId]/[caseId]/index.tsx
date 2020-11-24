@@ -24,6 +24,7 @@ import { Close } from '@material-ui/icons'
 import { PlotData } from 'plotly.js'
 import Grid from '~/components/Layouts/Grid'
 import GridItem from '~/components/GridItem'
+import { isSame } from '~/lib/arrayUtils'
 
 const ReactTable = dynamic(() => import('~/components/ReactTable/Table'), {
   ssr: false,
@@ -119,6 +120,7 @@ interface Props {
 interface State {
   modalContent: string
   showModal: boolean
+  filteredData: Array<TestCase>
 }
 
 export default class TestSuiteCase extends React.Component<Props, State> {
@@ -127,6 +129,7 @@ export default class TestSuiteCase extends React.Component<Props, State> {
     this.state = {
       modalContent: '',
       showModal: false,
+      filteredData: props.runs
     }
   }
 
@@ -145,8 +148,18 @@ export default class TestSuiteCase extends React.Component<Props, State> {
     })
   }
 
+  onTableUpdate = (instance: any): any => {
+    const { filteredData } = this.state
+    const filteredDataNext = instance.rows.map((e) => e.original)
+    if (isSame(filteredData.map((e) => parseInt(e.id)).sort(), filteredDataNext.map((e) => parseInt(e.id)).sort())) {
+      return
+    }
+    this.setState({ filteredData: filteredDataNext })
+  }
+
   render() {
     const { testSuite, testCase, runs } = this.props
+    const { filteredData } = this.state
 
     if (!ld.has(testCase, 'id')) {
       return <p>Has errors</p>
@@ -175,8 +188,8 @@ export default class TestSuiteCase extends React.Component<Props, State> {
     const plotDataCasesErrorOrFailBoxPlot: Array<Partial<PlotData>> = []
     const plotDataTime: Array<Partial<PlotData>> = []
     const plotDataTimeBoxPlot: Array<Partial<PlotData>> = []
-    const x = runs.map((e) => e.test_suite.test_run_id)
-    let y = runs.map((e) => {
+    const x = filteredData.map((e) => e.test_suite.test_run_id)
+    let y = filteredData.map((e) => {
       if (e.errors.length > 0 || e.failures.length > 0) {
         return -1
         // @ts-ignore
