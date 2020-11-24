@@ -1,7 +1,7 @@
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { H1, A } from '~/components/Typography'
-import { TestSuiteType, TestSuiteStatic } from '~/lib/junit/types'
+import { A, H1 } from '~/components/Typography'
+import { TestSuiteStatic, TestSuiteType } from '~/lib/junit/types'
 import Page from '~/components/Page'
 import styled from 'styled-components'
 import {
@@ -270,11 +270,15 @@ export default class TestSuite extends React.Component<Props, State> {
     }
 
     const plotDataTestSuiteErrorsTraces: Array<Partial<PlotData>> = []
+    const plotDataTestSuiteErrorsTracesBoxPlot: Array<Partial<PlotData>> = []
     const plotDataTestSuiteTime: Array<Partial<PlotData>> = []
+    const plotDataTestSuiteTimeBoxPlot: Array<Partial<PlotData>> = []
     Object.keys(plotDataByTestCaseId).map((caseId) => {
       const { x, xStatus, status, time } = plotDataByTestCaseId[caseId]
       plotDataTestSuiteErrorsTraces.push({ x: xStatus, y: status, mode: 'lines+markers', name: caseNameById[caseId] })
+      plotDataTestSuiteErrorsTracesBoxPlot.push({ y: status, type: 'box', name: caseNameById[caseId] })
       plotDataTestSuiteTime.push({ x, y: time, mode: 'lines+markers', name: caseNameById[caseId] })
+      plotDataTestSuiteTimeBoxPlot.push({ y: time, type: 'box', name: caseNameById[caseId] })
     })
 
     return (
@@ -322,6 +326,17 @@ export default class TestSuite extends React.Component<Props, State> {
             }}
             config={getPlotConfig()}
           />
+          <StyledPlot
+            data={plotDataTestSuiteErrorsTracesBoxPlot}
+            layout={{
+              ...getPlotLayout(true, false),
+              title: 'Test Case Status Box Plot',
+              yaxis: {
+                title: 'Error(-1) Skip(+0) pass(+1)',
+              },
+            }}
+            config={getPlotConfig()}
+          />
 
           <StyledPlot
             data={plotDataTestSuiteTime}
@@ -331,6 +346,17 @@ export default class TestSuite extends React.Component<Props, State> {
               xaxis: {
                 title: 'Test Run Id',
               },
+              yaxis: {
+                title: 'Time (s)',
+              },
+            }}
+            config={getPlotConfig()}
+          />
+          <StyledPlot
+            data={plotDataTestSuiteTimeBoxPlot}
+            layout={{
+              ...getPlotLayout(true, false),
+              title: 'Test Case Time Box Plot',
               yaxis: {
                 title: 'Time (s)',
               },
