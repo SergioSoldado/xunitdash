@@ -14,6 +14,7 @@ import { Column } from 'react-table'
 import {
   getButtonTextArrayComponent,
   getColItemAutoWidth,
+  getKMostPopularKeys,
   getPlotConfig,
   getPlotLayout,
 } from '~/pageComponents/testRuns/misc'
@@ -129,7 +130,7 @@ export default class TestSuiteCase extends React.Component<Props, State> {
     this.state = {
       modalContent: '',
       showModal: false,
-      filteredData: props.runs
+      filteredData: props.runs,
     }
   }
 
@@ -161,9 +162,25 @@ export default class TestSuiteCase extends React.Component<Props, State> {
     const { testSuite, testCase, runs } = this.props
     const { filteredData } = this.state
 
-    if (!ld.has(testCase, 'id')) {
+    if (!ld.has(testCase, 'id') || !ld.isArray(filteredData)) {
       return <p>Has errors</p>
     }
+
+    const weigher = (k: string, v: object | string): number => {
+      let weight = 1
+      if (k.includes('env')) {
+        weight = weight * 0.5
+      }
+      if (typeof v === 'object' || (typeof v === 'string' && v.length > 32)) {
+        weight = weight * 0.2
+      }
+      if (typeof v === 'string' && v.length === 0) {
+        weight = 0
+      }
+      return weight
+    }
+    const keys: Array<string> = getKMostPopularKeys(runs, 'properties', 10, weigher)
+    console.log('keys:', keys)
 
     const columns: Array<Column> = [
       getColItemAutoWidth(runs, 'test_suite.timestamp', 'Timestamp'),
@@ -176,10 +193,21 @@ export default class TestSuiteCase extends React.Component<Props, State> {
       getColItemAutoWidth(runs, (e) => e.id, 'Skips', {
         Cell: ({ row }) => getButtonTextArrayComponent(row, 'original.skippeds', this.handleToggleModal),
       }),
-      getColItemAutoWidth(runs, (e) => e.id, 'Details', {
-        Cell: ({ row }) => getButtonTextArrayComponent(row, 'original.properties', this.handleToggleModal, 'See'),
-      }),
+      // getColItemAutoWidth(runs, (e) => e.id, 'Details', {
+      //   Cell: ({ row }) => getButtonTextArrayComponent(row, 'original.properties', this.handleToggleModal, 'See'),
+      // }),
       getColItemAutoWidth(runs, (e) => parseFloat(e.time).toFixed(2), 'Time (s)'),
+      ...keys.map((k) => {
+        return getColItemAutoWidth(runs, `properties.${k}`, k, {
+          Cell: ({ row }) => {
+            const comp = ld.get(row, `original.properties.${k}`, null)
+            if (typeof comp === 'string' && comp.length > 128) {
+              return getButtonTextArrayComponent(row, `original.properties.${k}`, this.handleToggleModal, 'See')
+            }
+            return comp
+          },
+        })
+      }),
     ]
 
     const { id, name, description, classname, group, file, line } = testCase
