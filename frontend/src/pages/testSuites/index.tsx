@@ -75,28 +75,31 @@ export async function getStaticProps() {
         pageLimit: 1,
         filter,
       })
+      const numRuns = Math.min(total, 250)
+      let pageOffset = Math.max(0, total - 250)
       let tests = 0
       let errors = 0
       let fails = 0
       const runs = []
       do {
         const { data } = await getMultipleTestSuitesOfSuitesStatic(tss.id, {
-          pageOffset: runs.length,
+          pageOffset: pageOffset,
           pageLimit: 250,
         })
+        pageOffset -= data.length
         if (data.length <= 0) {
           break
         }
         for (let j = 0; j < data.length; ++j) {
           const testSuiteRun = data[j]
-          if (testSuiteRun.tests == tss.testCases.length) {
+          // if (testSuiteRun.tests == tss.testCases.length) {
             tests += testSuiteRun.tests
             errors += testSuiteRun.errors
             fails += testSuiteRun.failures
-          }
+          // }
           runs.push(testSuiteRun)
         }
-      } while (runs.length < total)
+      } while (runs.length < numRuns)
 
       runs.sort((a, b) => a.test_run_id - b.test_run_id)
       items.push({
