@@ -276,9 +276,9 @@ export default class TestSuite extends React.Component<Props, State> {
     Object.keys(plotDataByTestCaseId).map((caseId) => {
       const { x, xStatus, status, time } = plotDataByTestCaseId[caseId]
       plotDataTestSuiteErrorsTraces.push({ x: xStatus, y: status, mode: 'lines+markers', name: caseNameById[caseId] })
-      plotDataTestSuiteErrorsTracesBoxPlot.push({ y: status, type: 'box', name: caseNameById[caseId] })
+      plotDataTestSuiteErrorsTracesBoxPlot.push({ y: status, boxmean:'sd', type: 'box', name: caseNameById[caseId] })
       plotDataTestSuiteTime.push({ x, y: time, mode: 'lines+markers', name: caseNameById[caseId] })
-      plotDataTestSuiteTimeBoxPlot.push({ y: time, type: 'box', name: caseNameById[caseId] })
+      plotDataTestSuiteTimeBoxPlot.push({ y: time, boxmean:'sd', type: 'box', name: caseNameById[caseId] })
     })
 
     return (
