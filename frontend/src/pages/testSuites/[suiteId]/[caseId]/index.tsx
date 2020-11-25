@@ -3,7 +3,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import Page from '~/components/Page'
 import { Blockquote, H1 } from '~/components/Typography'
 import { TestCase, TestCaseStatic, TestSuiteStatic } from '~/lib/junit/types'
-import { getMultipleTestCasesOfCasesStatic, getTestSuitesStaticTestCaseStatic } from '~/lib/junit/utils'
+import { getMultipleTestCasesOfCasesStatic, getTestCaseStatic } from '~/lib/junit/utils'
 import { getTestSuiteStatic } from '~/lib/junit/testRuns'
 import styled from 'styled-components'
 import Link from 'next/link'
@@ -75,7 +75,7 @@ export async function getStaticProps({ params: { suiteId, caseId } }) {
   }
 
   const testSuite = await getTestSuiteStatic(suiteId, {})
-  const testCase = await getTestSuitesStaticTestCaseStatic(caseId)
+  const testCase = await getTestCaseStatic(caseId)
 
   let runs: Array<TestCase> = []
   const { count } = await getMultipleTestCasesOfCasesStatic(caseId, {
@@ -91,7 +91,6 @@ export async function getStaticProps({ params: { suiteId, caseId } }) {
   do {
     const { data } = await getMultipleTestCasesOfCasesStatic(caseId, {
       pageOffset: pageOffset,
-      // fields: 'skips,errors,failures,test_suite_id',
       include: 'test_suite,errors,failures,flaky_errors,flaky_failures,rerun_errors,rerun_failures,skippeds',
       pageLimit: 250,
     })
@@ -108,7 +107,7 @@ export async function getStaticProps({ params: { suiteId, caseId } }) {
       testCase,
       runs,
     },
-    revalidate: 3600,
+    revalidate: 1800,
   }
 }
 
