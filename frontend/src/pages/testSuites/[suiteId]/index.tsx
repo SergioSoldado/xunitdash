@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import {
   getDateFilter,
   getMultipleTestSuitesOfSuitesStatic,
-  getMultipleTestSuitesStatic,
   getSingleTestSuiteStatic,
 } from '~/lib/junit/utils'
 import { shiftDate } from '~/lib/dateUtils'
@@ -55,27 +54,8 @@ const StyledPlot = styled(Plot)`
 `
 
 export async function getStaticPaths() {
-  let paths: Array<object> = []
-  // Get a single page and depend on lazy ssr.
-  const pageLimit = 1
-  do {
-    const { data } = await getMultipleTestSuitesStatic({
-      pageOffset: paths.length,
-      fields: '',
-      pageLimit,
-    })
-    if (data.length <= 0) {
-      break
-    }
-    for (const d of data) {
-      paths.push({
-        params: { suiteId: d.id },
-      })
-    }
-  } while (true)
-
   return {
-    paths,
+    paths: [],
     fallback: true,
   }
 }
@@ -154,7 +134,7 @@ export async function getStaticProps({ params: { suiteId } }) {
   runs.sort((a, b) => (a.test_run_id < b.test_run_id ? 1 : -1))
   return {
     props: { testSuite, runs, health, testCaseErrorCountById },
-    revalidate: 3600,
+    revalidate: 1800,
   }
 }
 
