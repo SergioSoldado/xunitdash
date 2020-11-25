@@ -78,7 +78,7 @@ export async function getStaticProps({ params: { suiteId, caseId } }) {
   const testCase = await getTestSuitesStaticTestCaseStatic(caseId)
 
   let runs: Array<TestCase> = []
-  const { count } = await getMultipleTestCasesOfCasesStatic(suiteId, {
+  const { count } = await getMultipleTestCasesOfCasesStatic(caseId, {
     fields: '',
     pageLimit: 1,
   })
@@ -89,7 +89,7 @@ export async function getStaticProps({ params: { suiteId, caseId } }) {
     pageOffset = 0
   }
   do {
-    const { data } = await getMultipleTestCasesOfCasesStatic(suiteId, {
+    const { data } = await getMultipleTestCasesOfCasesStatic(caseId, {
       pageOffset: pageOffset,
       // fields: 'skips,errors,failures,test_suite_id',
       include: 'test_suite,errors,failures,flaky_errors,flaky_failures,rerun_errors,rerun_failures,skippeds',
@@ -184,13 +184,13 @@ export default class TestSuiteCase extends React.Component<Props, State> {
 
     const columns: Array<Column> = [
       getColItemAutoWidth(runs, 'test_suite.timestamp', 'Timestamp'),
-      getColItemAutoWidth(runs, (e) => e.id, 'Failures', {
+      getColItemAutoWidth(runs, (e) => e.failures.length, 'Failures', {
         Cell: ({ row }) => getButtonTextArrayComponent(row, 'original.failures', this.handleToggleModal),
       }),
-      getColItemAutoWidth(runs, (e) => e.id, 'Errors', {
+      getColItemAutoWidth(runs, (e) => e.errors.length, 'Errors', {
         Cell: ({ row }) => getButtonTextArrayComponent(row, 'original.errors', this.handleToggleModal),
       }),
-      getColItemAutoWidth(runs, (e) => e.id, 'Skips', {
+      getColItemAutoWidth(runs, (e) => e.skippeds.length, 'Skips', {
         Cell: ({ row }) => getButtonTextArrayComponent(row, 'original.skippeds', this.handleToggleModal),
       }),
       // getColItemAutoWidth(runs, (e) => e.id, 'Details', {
@@ -227,9 +227,9 @@ export default class TestSuiteCase extends React.Component<Props, State> {
       return 1
     })
     plotDataCasesErrorOrFail.push({ x, y, mode: 'lines+markers', name })
-    plotDataCasesErrorOrFailBoxPlot.push({ y, type: 'box', name })
+    plotDataCasesErrorOrFailBoxPlot.push({ y, boxmean:'sd', type: 'box', name })
     plotDataTime.push({ x, y: runs.map((e) => e.time), mode: 'lines+markers', name })
-    plotDataTimeBoxPlot.push({ y: runs.map((e) => e.time), type: 'box', name })
+    plotDataTimeBoxPlot.push({ y: runs.map((e) => e.time), boxmean:'sd', type: 'box', name })
 
     const tableData = {
       id,
