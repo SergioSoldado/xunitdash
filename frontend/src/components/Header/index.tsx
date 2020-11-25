@@ -30,6 +30,12 @@ const NavLinks = ({ activeRoute }: Props) => {
           <a>Suites</a>
         </Link>
       </Label>
+
+      <Label isActive={activeRoute === 'Analysis'}>
+        <Link href="/analysis">
+          <a>Analytics</a>
+        </Link>
+      </Label>
     </>
   )
 }
@@ -45,6 +51,9 @@ export default function Header(): ReactElement {
     if (router.pathname.startsWith('/testSuites')) {
       activeRoute = 'Suites'
       activePath = '/testSuites'
+    } else if (router.pathname.startsWith('/analysis')) {
+      activeRoute = 'Analytics'
+      activePath = '/analysis'
     }
   }
 
