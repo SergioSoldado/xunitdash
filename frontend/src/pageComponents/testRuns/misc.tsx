@@ -15,39 +15,44 @@ export function getKMostPopularKeys(
   weigher: (k: string, v: any) => number = null
 ) {
   const binned = {}
-  for (let i = 0; i < objs.length; ++i) {
-    let obj = objs[i]
-    if (path && path.length > 0) {
-      obj = ld.get(objs[i], path, {})
-    }
+  try {
+    for (let i = 0; i < objs.length; ++i) {
+      let obj = objs[i]
+      if (path && path.length > 0) {
+        obj = ld.get(objs[i], path, {})
+      }
 
-    for (const k of Object.keys(obj)) {
-      if (typeof obj[k] !== 'string' && typeof obj[k] !== 'number') {
-        continue
-      }
-      let weight = 1
-      if (weigher) {
-        weight = weigher(k, obj[k])
-      }
-      if (!ld.has(binned, k)) {
-        binned[k] = weight
-      } else {
-        binned[k] += weight
+      for (const k of Object.keys(obj)) {
+        if (typeof obj[k] !== 'string' && typeof obj[k] !== 'number') {
+          continue
+        }
+        let weight = 1
+        if (weigher) {
+          weight = weigher(k, obj[k])
+        }
+        if (!ld.has(binned, k)) {
+          binned[k] = weight
+        } else {
+          binned[k] += weight
+        }
       }
     }
-  }
-  let binnedArr = []
-  for (const k of Object.keys(binned)) {
-    binnedArr.push({
-      k,
-      count: binned[k],
+    let binnedArr = []
+    for (const k of Object.keys(binned)) {
+      binnedArr.push({
+        k,
+        count: binned[k],
+      })
+    }
+    binnedArr.sort(function(a, b) {
+      return b.count - a.count
     })
-  }
-  binnedArr.sort(function (a, b) {
-    return b.count - a.count
-  })
 
-  return binnedArr.slice(0, Math.min(k, binnedArr.length)).map((e) => e.k)
+    return binnedArr.slice(0, Math.min(k, binnedArr.length)).map((e) => e.k)
+  } catch (e) {
+    console.log(e)
+    return []
+  }
 }
 
 export function getPlotLayout(
@@ -105,22 +110,27 @@ export function getColItemAutoWidth(
   headerText,
   props: object = undefined
 ) {
-  const cellLength = Math.max(
-    ...data.map((row) => {
-      let value: string | number
-      if (typeof accessor === 'string') {
-        value = ld.get(row, accessor)
-      } else {
-        value = accessor(row)
-      }
-      if (typeof value === 'number') return value.toString().length
-      if (typeof value === 'string' && value.length > 64) {
-        return headerText.length
-      }
-      return (value || '').length
-    }),
-    headerText.length
-  )
+  let cellLength = headerText.length
+  try {
+    cellLength = Math.max(
+      ...data.map((row) => {
+        let value: string | number
+        if (typeof accessor === 'string') {
+          value = ld.get(row, accessor)
+        } else {
+          value = accessor(row)
+        }
+        if (typeof value === 'number') return value.toString().length
+        if (typeof value === 'string' && value.length > 64) {
+          return headerText.length
+        }
+        return (value || '').length
+      }),
+      headerText.length
+    )
+  } catch (e) {
+    console.log(e)
+  }
 
   const magicSpacing = 20
   const width = cellLength * magicSpacing
