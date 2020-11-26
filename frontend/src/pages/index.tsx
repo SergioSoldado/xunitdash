@@ -69,7 +69,7 @@ interface State {
   filteredData: Array<TestRunData>
 }
 
-const daysBack = 5
+const daysBack = 365
 
 export async function getStaticProps() {
   const calendarEndDate = new Date()
